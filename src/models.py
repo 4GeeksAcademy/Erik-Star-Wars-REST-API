@@ -101,7 +101,7 @@ class Fav_Planets(db.Model):
     name = db.Column(db.String(120), unique=True)
     description = db.Column(db.String(120), unique=True)
 
-    planets = db.relationship('Planet', back_populates='favorite_planets')
+    planet = db.relationship('Planet', back_populates='favorite_planet')
 
     def __repr__(self):
         return '<fav_People %r>' % self.id
