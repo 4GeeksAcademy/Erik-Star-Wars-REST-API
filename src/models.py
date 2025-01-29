@@ -29,11 +29,8 @@ class Planet(db.Model):
     __tablename__ = 'planet'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True)
-    description = db.Column(db.String(120), unique=True)
-    population = db.Column(db.Integer, primary_key=False)
-
-    favorite_planets = db.relationship('Fav_Planets', back_populates='planets', lazy=True)
+    name = db.Column(db.String(120), unique=True, nullable=False)
+    description = db.Column(db.String(250))
 
     def __repr__(self):
         return '<Planet %r>' % self.name
@@ -43,8 +40,6 @@ class Planet(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "population": self.population
-
         }
     
 class People(db.Model):
@@ -96,21 +91,21 @@ class Fav_Planets(db.Model):
     __tablename__ = 'fav_Planets'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey ("user.id"))
-    planet_id = db.Column(db.Integer, db.ForeignKey ("planet.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
     name = db.Column(db.String(120), unique=True)
     description = db.Column(db.String(120), unique=True)
 
-    planet = db.relationship('Planet', back_populates='favorite_planet')
+    planet = db.relationship('Planet', backref='favorite_planets')
 
     def __repr__(self):
-        return '<fav_People %r>' % self.id
+        return '<fav_Planets %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
-            "user_id" : self.user_id,
-            "planet_id" : self.planet_id,
+            "user_id": self.user_id,
+            "planet_id": self.planet_id,
             "name": self.name,
             "description": self.description,
         }

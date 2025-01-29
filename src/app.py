@@ -189,6 +189,7 @@ def get_user_favs():
     user_id = data.get('user_id')
 
     user = User.query.get(user_id)
+
     if user is None:
         return jsonify({"error": "User not found"}), 404
 
@@ -221,13 +222,13 @@ def add_fav_people(people_id):
 
     user = User.query.get(user_id)
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error" : "User not found"}), 404
 
     fav = Fav_People(user_id=user_id, people_id=people_id)
     db.session.add(fav)
     db.session.commit()
 
-    return jsonify({"message": "Fav person added"}), 201
+    return jsonify({"message" : "Fav person added"}), 201
 
 
 @app.route('/fav/people/<int:people_id>', methods=['DELETE'])
@@ -237,12 +238,12 @@ def delete_fav_people(people_id):
 
     fav = Fav_People.query.filter_by(user_id=user_id, people_id=people_id).first()
     if not fav:
-        return jsonify({"error": "Fav person not found"}), 404
+        return jsonify({"error" : "Fav person not found"}), 404
 
     db.session.delete(fav)
     db.session.commit()
 
-    return jsonify({"message": "Fav person deleted"}), 200
+    return jsonify({"message" : "Fav person deleted"}), 200
 
 @app.route('/fav/planet/<int:planet_id>', methods=['DELETE'])
 def delete_fav_planet(planet_id):
@@ -251,12 +252,12 @@ def delete_fav_planet(planet_id):
 
     fav = Fav_Planets.query.filter_by(user_id=user_id, planet_id=planet_id).first()
     if not fav:
-        return jsonify({"error": "Fav planet not found"}), 404
+        return jsonify({"error" : "Fav planet not found"}), 404
 
     db.session.delete(fav)
     db.session.commit()
 
-    return jsonify({"message": "Fav planet deleted"}), 200
+    return jsonify({"message" : "Fav planet deleted"}), 200
 
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
